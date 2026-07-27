@@ -1,0 +1,6 @@
+{
+  "name": "Private Video Library",
+  "description": "A secure, responsive private video library web application with local upload, video player, user authentication, dark blue glassmorphism interface, search, favorites, and metadata management.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
