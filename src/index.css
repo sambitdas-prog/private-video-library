@@ -1,4 +1,91 @@
 @import "tailwindcss";
 
+/* ── Dark mode: scoped to .dark class on <html> ─────────────────────────────
+   Tailwind v4 variant — matches any element that is inside .dark           */
 @variant dark (&:where(.dark, .dark *));
 
+/* ── Dark Theme CSS Custom Properties ──────────────────────────────────────
+   Used as semantic tokens for the Private Vault dark palette.               */
+:root {
+  /* Background layers */
+  --pv-bg:            hsl(220 15% 97%);
+  --pv-surface:       hsl(220 14% 100%);
+  --pv-border:        hsl(220 13% 88%);
+
+  /* Text */
+  --pv-text-primary:  hsl(222 47% 11%);
+  --pv-text-muted:    hsl(215 16% 47%);
+
+  /* Brand accent */
+  --pv-accent:        hsl(217 91% 60%);
+  --pv-accent-glow:   hsl(217 91% 60% / 0.25);
+
+  /* Scroll */
+  --pv-scrollbar-bg:  hsl(220 13% 88%);
+  --pv-scrollbar-thumb: hsl(215 16% 60%);
+}
+
+.dark {
+  /* Background layers */
+  --pv-bg:            hsl(222 47% 4%);
+  --pv-surface:       hsl(222 30% 8%);
+  --pv-border:        hsl(222 20% 16%);
+
+  /* Text */
+  --pv-text-primary:  hsl(210 40% 98%);
+  --pv-text-muted:    hsl(215 20% 55%);
+
+  /* Brand accent */
+  --pv-accent:        hsl(199 89% 48%);
+  --pv-accent-glow:   hsl(199 89% 48% / 0.20);
+
+  /* Scroll */
+  --pv-scrollbar-bg:  hsl(222 20% 12%);
+  --pv-scrollbar-thumb: hsl(222 20% 28%);
+}
+
+/* ── Smooth Global Scroll ────────────────────────────────────────────────── */
+html {
+  scroll-behavior: smooth;
+}
+
+/* ── Custom Dark-Aware Scrollbar (Webkit) ───────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--pv-scrollbar-bg);
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--pv-scrollbar-thumb);
+  border-radius: 999px;
+  transition: background 0.2s;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--pv-accent);
+}
+
+/* Firefox scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--pv-scrollbar-thumb) var(--pv-scrollbar-bg);
+}
+
+/* ── Global Transition for Theme Switching ──────────────────────────────── */
+*, *::before, *::after {
+  transition-property: background-color, border-color, color;
+  transition-duration: 200ms;
+  transition-timing-function: ease;
+}
+
+/* Exempt elements that should NOT animate (e.g. videos, SVGs with motion) */
+video,
+canvas,
+svg * {
+  transition: none;
+}

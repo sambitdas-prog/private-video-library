@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Shield, Upload, Search, Star, Moon, Sun, LogOut, User as UserIcon, Film, SlidersHorizontal } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Shield, Upload, Search, Star, Moon, Sun, LogOut, User as UserIcon, Film, SlidersHorizontal, ArrowUp } from 'lucide-react';
 import { User, VideoFilters, SortOption } from '../types';
 
 interface NavbarProps {
@@ -14,6 +14,62 @@ interface NavbarProps {
   videoCount: number;
 }
 
+// ─── UI Path Hint: Theme Toggle Arrow ────────────────────────────────────────
+// Shown once to first-time users to guide them to the dark/light toggle button.
+// Auto-dismisses after 6s. Never shown again once dismissed (localStorage flag).
+const THEME_HINT_KEY = 'pv_theme_hint_seen';
+
+const ThemeToggleTip: React.FC<{ onDismiss: () => void }> = ({ onDismiss }) => (
+  <div
+    className="
+      absolute bottom-full right-0 mb-3 z-50
+      flex flex-col items-center
+      animate-in fade-in slide-in-from-bottom-2 duration-300
+    "
+    role="tooltip"
+    aria-label="Theme toggle hint"
+  >
+    {/* Callout bubble */}
+    <div className="
+      relative flex items-center gap-2
+      px-3 py-2 rounded-xl
+      bg-indigo-600 dark:bg-sky-500
+      text-white text-[11px] font-semibold tracking-wide
+      shadow-xl shadow-indigo-500/40 dark:shadow-sky-500/40
+      whitespace-nowrap
+      border border-indigo-400/40 dark:border-sky-300/30
+    ">
+      {/* Icon */}
+      <span className="text-sm">🌙</span>
+      <span>Click to toggle Dark / Light theme</span>
+
+      {/* Close × */}
+      <button
+        onClick={(e) => { e.stopPropagation(); onDismiss(); }}
+        className="ml-1 text-white/70 hover:text-white transition-colors text-xs leading-none"
+        aria-label="Dismiss hint"
+      >
+        ✕
+      </button>
+
+      {/* Bottom-right triangle pointer */}
+      <span className="
+        absolute -bottom-[6px] right-4
+        w-3 h-3 rotate-45
+        bg-indigo-600 dark:bg-sky-500
+        border-r border-b border-indigo-400/40 dark:border-sky-300/30
+      " />
+    </div>
+
+    {/* Animated arrow pointing down to the button */}
+    <div className="flex flex-col items-center mt-1 mb-[-2px]">
+      <div className="w-0.5 h-3 bg-indigo-400 dark:bg-sky-400 rounded-full animate-pulse" />
+      <ArrowUp className="w-4 h-4 text-indigo-400 dark:text-sky-400 rotate-180 -mt-1 animate-bounce" />
+    </div>
+  </div>
+);
+// ─────────────────────────────────────────────────────────────────────────────
+
 export const Navbar: React.FC<NavbarProps> = ({
   user,
   filters,
@@ -26,6 +82,34 @@ export const Navbar: React.FC<NavbarProps> = ({
   videoCount,
 }) => {
   const [showUserMenu, setShowUserMenu] = useState(false);
+
+  // UI Path hint state — show once to first-time users
+  const [showThemeHint, setShowThemeHint] = useState<boolean>(() => {
+    try {
+      return !localStorage.getItem(THEME_HINT_KEY);
+    } catch {
+      return false;
+    }
+  });
+
+  // Auto-dismiss after 6 seconds
+  useEffect(() => {
+    if (!showThemeHint) return;
+    const timer = setTimeout(() => dismissThemeHint(), 6000);
+    return () => clearTimeout(timer);
+  }, [showThemeHint]);
+
+  const dismissThemeHint = () => {
+    setShowThemeHint(false);
+    try {
+      localStorage.setItem(THEME_HINT_KEY, 'true');
+    } catch {}
+  };
+
+  const handleToggleWithHint = () => {
+    dismissThemeHint();
+    onToggleDarkMode();
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-slate-950/70 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-200">
@@ -99,14 +183,36 @@ export const Navbar: React.FC<NavbarProps> = ({
                 <span>Upload Video</span>
               </button>
 
-              {/* Theme Toggle */}
-              <button
-                onClick={onToggleDarkMode}
-                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
-              >
-                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-600" />}
-              </button>
+              {/* ── Theme Toggle (with UI Path hint) ─────────────────────── */}
+              <div className="relative" id="theme-toggle-wrapper">
+                {/* UI Path arrow — shown first-time only */}
+                {showThemeHint && <ThemeToggleTip onDismiss={dismissThemeHint} />}
+
+                <button
+                  id="theme-toggle-btn"
+                  onClick={handleToggleWithHint}
+                  title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  className={`
+                    p-2 rounded-xl border transition-all shadow-sm
+                    bg-slate-100 dark:bg-slate-900/60
+                    text-slate-700 dark:text-slate-300
+                    border-slate-200 dark:border-slate-800
+                    hover:border-slate-300 dark:hover:border-slate-700
+                    hover:text-slate-900 dark:hover:text-white
+                    ${showThemeHint
+                      ? 'ring-2 ring-indigo-400/60 dark:ring-sky-400/60 ring-offset-1 ring-offset-white dark:ring-offset-slate-950'
+                      : ''
+                    }
+                  `}
+                >
+                  {isDarkMode
+                    ? <Sun className="w-4 h-4 text-amber-400" />
+                    : <Moon className="w-4 h-4 text-sky-600" />
+                  }
+                </button>
+              </div>
+              {/* ─────────────────────────────────────────────────────────── */}
 
               {/* User Dropdown */}
               <div className="relative">
@@ -150,13 +256,36 @@ export const Navbar: React.FC<NavbarProps> = ({
             </>
           ) : (
             <>
-              <button
-                onClick={onToggleDarkMode}
-                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all mr-1 shadow-sm"
-              >
-                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-600" />}
-              </button>
+              {/* ── Theme Toggle for logged-out state (with UI Path hint) ── */}
+              <div className="relative" id="theme-toggle-wrapper-guest">
+                {showThemeHint && <ThemeToggleTip onDismiss={dismissThemeHint} />}
+
+                <button
+                  id="theme-toggle-btn-guest"
+                  onClick={handleToggleWithHint}
+                  title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  aria-label={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                  className={`
+                    p-2 rounded-xl border transition-all mr-1 shadow-sm
+                    bg-slate-100 dark:bg-slate-900/60
+                    text-slate-700 dark:text-slate-300
+                    border-slate-200 dark:border-slate-800
+                    hover:border-slate-300 dark:hover:border-slate-700
+                    hover:text-slate-900 dark:hover:text-white
+                    ${showThemeHint
+                      ? 'ring-2 ring-indigo-400/60 dark:ring-sky-400/60 ring-offset-1 ring-offset-white dark:ring-offset-slate-950'
+                      : ''
+                    }
+                  `}
+                >
+                  {isDarkMode
+                    ? <Sun className="w-4 h-4 text-amber-400" />
+                    : <Moon className="w-4 h-4 text-sky-600" />
+                  }
+                </button>
+              </div>
+              {/* ─────────────────────────────────────────────────────────── */}
+
               <button
                 onClick={() => onOpenAuth('login')}
                 className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-900/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-all shadow-sm"
