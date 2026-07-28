@@ -1,0 +1,12 @@
+{
+  "users": [
+    {
+      "id": "usr_1785240315249_trov5o",
+      "username": "abcd",
+      "email": "name@example.com",
+      "passwordHash": "$2b$10$zzlNiCxGqSAVjADK.vxT..704MQN7XA7.k94X74/zYiTzYcPt5lx6",
+      "createdAt": "2026-07-28T12:05:15.249Z"
+    }
+  ],
+  "videos": []
+}

@@ -24,11 +24,11 @@ export const VideoCard: React.FC<VideoCardProps> = ({
   const formatInfo = getFormatBadgeColor(video.filename, video.mimeType);
 
   return (
-    <div className="group relative rounded-2xl bg-slate-900/80 border border-slate-800/80 hover:border-slate-700/90 shadow-xl backdrop-blur-xl overflow-hidden transition-all duration-200 hover:shadow-2xl hover:shadow-blue-500/10 flex flex-col">
+    <div className="group relative rounded-2xl bg-white/80 dark:bg-slate-900/80 border border-slate-200/80 dark:border-slate-800/80 hover:border-blue-300 dark:hover:border-slate-700/90 shadow-md hover:shadow-xl dark:shadow-xl dark:hover:shadow-blue-500/10 backdrop-blur-xl overflow-hidden transition-all duration-200 flex flex-col">
       {/* Thumbnail Container */}
       <div
         onClick={() => onPlay(video)}
-        className="relative aspect-video bg-slate-950 overflow-hidden cursor-pointer group/thumb"
+        className="relative aspect-video bg-slate-900 dark:bg-slate-950 overflow-hidden cursor-pointer group/thumb"
       >
         {video.thumbnail && !imgError ? (
           <img
@@ -38,9 +38,9 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             className="w-full h-full object-cover group-hover/thumb:scale-105 transition-transform duration-300"
           />
         ) : (
-          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950/60 p-4 text-center">
-            <Film className="w-10 h-10 text-slate-700 group-hover/thumb:text-sky-400 group-hover/thumb:scale-110 transition-all duration-300" />
-            <span className="text-[11px] text-slate-600 mt-2 truncate max-w-[80%] font-mono">
+          <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-100 via-slate-200/60 to-indigo-100/50 dark:from-slate-950 dark:via-slate-900 dark:to-indigo-950/60 p-4 text-center">
+            <Film className="w-10 h-10 text-slate-400 dark:text-slate-700 group-hover/thumb:text-sky-500 dark:group-hover/thumb:text-sky-400 group-hover/thumb:scale-110 transition-all duration-300" />
+            <span className="text-[11px] text-slate-500 dark:text-slate-600 mt-2 truncate max-w-[80%] font-mono">
               {video.filename}
             </span>
           </div>
@@ -79,11 +79,11 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           title={video.isFavorite ? 'Remove from favorites' : 'Add to favorites'}
           className={`absolute top-3 right-3 z-20 p-2 rounded-xl backdrop-blur-md transition-all shadow-md ${
             video.isFavorite
-              ? 'bg-amber-500/20 text-amber-400 border border-amber-500/40'
+              ? 'bg-amber-500/25 text-amber-400 border border-amber-500/50'
               : 'bg-slate-950/60 text-slate-400 border border-slate-800 hover:text-amber-400 hover:bg-slate-900'
           }`}
         >
-          <Star className={`w-4 h-4 ${video.isFavorite ? 'fill-amber-400' : ''}`} />
+          <Star className={`w-4 h-4 ${video.isFavorite ? 'fill-amber-400 text-amber-400' : ''}`} />
         </button>
       </div>
 
@@ -93,7 +93,7 @@ export const VideoCard: React.FC<VideoCardProps> = ({
           <div className="flex items-start justify-between gap-2 mb-2">
             <h3
               onClick={() => onPlay(video)}
-              className="text-sm font-bold text-slate-100 hover:text-sky-400 transition-colors line-clamp-2 cursor-pointer leading-snug"
+              className="text-sm font-bold text-slate-900 dark:text-slate-100 hover:text-blue-600 dark:hover:text-sky-400 transition-colors line-clamp-2 cursor-pointer leading-snug"
               title={video.title}
             >
               {video.title}
@@ -103,14 +103,14 @@ export const VideoCard: React.FC<VideoCardProps> = ({
             <div className="relative shrink-0">
               <button
                 onClick={() => setShowMenu(!showMenu)}
-                className="p-1 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 transition-colors"
+                className="p-1 rounded-lg text-slate-400 hover:text-slate-900 dark:hover:text-white hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
               >
                 <MoreVertical className="w-4 h-4" />
               </button>
 
               {showMenu && (
                 <div
-                  className="absolute right-0 mt-1 w-40 rounded-xl bg-slate-900 border border-slate-800 shadow-2xl p-1 z-30 animate-in fade-in zoom-in-95 duration-150"
+                  className="absolute right-0 mt-1 w-40 rounded-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl dark:shadow-2xl p-1 z-30 animate-in fade-in zoom-in-95 duration-150"
                   onMouseLeave={() => setShowMenu(false)}
                 >
                   <button
@@ -118,9 +118,9 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                       setShowMenu(false);
                       onPlay(video);
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800 hover:text-white rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors"
                   >
-                    <Play className="w-3.5 h-3.5 text-sky-400" />
+                    <Play className="w-3.5 h-3.5 text-sky-500 dark:text-sky-400" />
                     Play Video
                   </button>
                   <button
@@ -128,27 +128,27 @@ export const VideoCard: React.FC<VideoCardProps> = ({
                       setShowMenu(false);
                       onRename(video);
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800 hover:text-white rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors"
                   >
-                    <Edit2 className="w-3.5 h-3.5 text-indigo-400" />
+                    <Edit2 className="w-3.5 h-3.5 text-indigo-500 dark:text-indigo-400" />
                     Rename Title
                   </button>
                   <a
                     href={`/uploads/${video.storedFilename}`}
                     download={video.filename}
                     onClick={() => setShowMenu(false)}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-slate-200 hover:bg-slate-800 hover:text-white rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-slate-700 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-white rounded-lg transition-colors"
                   >
-                    <Download className="w-3.5 h-3.5 text-emerald-400" />
+                    <Download className="w-3.5 h-3.5 text-emerald-500 dark:text-emerald-400" />
                     Download File
                   </a>
-                  <div className="my-1 border-t border-slate-800" />
+                  <div className="my-1 border-t border-slate-100 dark:border-slate-800" />
                   <button
                     onClick={() => {
                       setShowMenu(false);
                       onDelete(video);
                     }}
-                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-lg transition-colors"
+                    className="w-full flex items-center gap-2 px-3 py-2 text-xs font-semibold text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-300 rounded-lg transition-colors"
                   >
                     <Trash2 className="w-3.5 h-3.5" />
                     Delete Video
@@ -160,13 +160,13 @@ export const VideoCard: React.FC<VideoCardProps> = ({
         </div>
 
         {/* Footer Metadata */}
-        <div className="pt-3 border-t border-slate-800/60 flex items-center justify-between text-[11px] text-slate-400 font-medium">
+        <div className="pt-3 border-t border-slate-200/80 dark:border-slate-800/60 flex items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-medium">
           <div className="flex items-center gap-1.5" title="Upload Date">
-            <Calendar className="w-3.5 h-3.5 text-slate-500" />
+            <Calendar className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
             <span>{formatDate(video.uploadDate)}</span>
           </div>
           <div className="flex items-center gap-1.5" title="File Size">
-            <HardDrive className="w-3.5 h-3.5 text-slate-500" />
+            <HardDrive className="w-3.5 h-3.5 text-slate-400 dark:text-slate-500" />
             <span>{formatFileSize(video.size)}</span>
           </div>
         </div>

@@ -165,22 +165,22 @@ export default function App() {
 
   if (isAuthLoading) {
     return (
-      <div className="min-h-screen bg-slate-950 text-slate-100 flex items-center justify-center">
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 flex items-center justify-center transition-colors duration-200">
         <div className="flex flex-col items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 to-sky-400 p-0.5 shadow-xl shadow-blue-500/20 animate-pulse flex items-center justify-center">
-            <Film className="w-6 h-6 text-slate-950" />
+          <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 p-0.5 shadow-xl shadow-blue-500/30 animate-pulse overflow-hidden flex items-center justify-center">
+            <img src="/logo.png" alt="Private Vault Logo" className="w-full h-full object-cover rounded-xl" />
           </div>
-          <p className="text-xs text-slate-400 font-medium">Loading Private Vault...</p>
+          <p className="text-xs text-slate-600 dark:text-slate-400 font-semibold tracking-wide">Loading Private Vault...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className={`min-h-screen transition-colors duration-200 ${
+    <div className={`min-h-screen flex flex-col transition-colors duration-200 ${
       isDarkMode
         ? 'bg-gradient-to-br from-slate-950 via-slate-900 to-indigo-950 text-slate-100'
-        : 'bg-slate-900 text-slate-100'
+        : 'bg-gradient-to-br from-slate-50 via-sky-50/50 to-indigo-50/30 text-slate-900'
     }`}>
       {/* Navbar */}
       <Navbar
@@ -199,7 +199,7 @@ export default function App() {
       />
 
       {/* Main Container */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {!user ? (
           /* Landing Page for Unauthenticated Visitors */
           <LandingPage
@@ -222,10 +222,10 @@ export default function App() {
             {isLoadingVideos ? (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 py-8">
                 {[1, 2, 3, 4].map((i) => (
-                  <div key={i} className="rounded-2xl bg-slate-900/50 border border-slate-800 p-4 space-y-3 animate-pulse">
-                    <div className="aspect-video bg-slate-800 rounded-xl" />
-                    <div className="h-4 bg-slate-800 rounded w-3/4" />
-                    <div className="h-3 bg-slate-800/60 rounded w-1/2" />
+                  <div key={i} className="rounded-2xl bg-white/70 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-800 p-4 space-y-3 animate-pulse shadow-sm">
+                    <div className="aspect-video bg-slate-200 dark:bg-slate-800 rounded-xl" />
+                    <div className="h-4 bg-slate-200 dark:bg-slate-800 rounded w-3/4" />
+                    <div className="h-3 bg-slate-200/80 dark:bg-slate-800/60 rounded w-1/2" />
                   </div>
                 ))}
               </div>
@@ -288,27 +288,32 @@ export default function App() {
       />
 
       {/* Footer */}
-      <footer className="mt-12 border-t border-slate-800/80 bg-slate-950/60 backdrop-blur-md px-6 py-4 text-xs font-medium text-slate-400">
+      <footer className="mt-auto border-t border-slate-200/80 dark:border-slate-800/80 bg-white/80 dark:bg-slate-950/60 backdrop-blur-md px-6 py-5 text-xs font-medium text-slate-600 dark:text-slate-400 transition-colors duration-200">
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            <span>Private Vault System Online & Full Encryption Active</span>
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse shadow-sm shadow-emerald-500/50" />
+            <span className="font-semibold text-slate-700 dark:text-slate-300">Private Vault System Online</span>
+            <span className="text-slate-400 dark:text-slate-600">•</span>
+            <span className="text-slate-500 dark:text-slate-400">Strictly Isolated & Encrypted</span>
           </div>
-          <div className="flex items-center gap-4 text-[11px] text-slate-400">
-            <span>Supported formats: <strong className="text-slate-300">MP4, MOV, MKV, WEBM</strong></span>
+          <div className="flex flex-wrap items-center justify-center gap-4 text-[11px] text-slate-500 dark:text-slate-400">
+            <span>Supported: <strong className="text-slate-700 dark:text-slate-300 font-semibold">MP4, MOV, MKV, WEBM</strong></span>
             <span>•</span>
             <span>Local Storage Engine v2.0</span>
+            <span>•</span>
+            <span>© {new Date().getFullYear()} Private Vault</span>
           </div>
         </div>
       </footer>
 
       {/* Toast Notification */}
       {toastMessage && (
-        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-slate-900 border border-slate-700/80 text-slate-100 shadow-2xl backdrop-blur-xl animate-in slide-in-from-bottom-5 duration-200">
-          <CheckCircle2 className="w-4 h-4 text-sky-400 shrink-0" />
+        <div className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 px-4 py-3 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-700/80 text-slate-900 dark:text-slate-100 shadow-xl dark:shadow-2xl backdrop-blur-xl animate-in slide-in-from-bottom-5 duration-200">
+          <CheckCircle2 className="w-4 h-4 text-sky-500 dark:text-sky-400 shrink-0" />
           <span className="text-xs font-semibold">{toastMessage}</span>
         </div>
       )}
     </div>
   );
 }
+

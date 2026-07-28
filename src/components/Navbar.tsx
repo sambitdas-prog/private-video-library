@@ -28,25 +28,23 @@ export const Navbar: React.FC<NavbarProps> = ({
   const [showUserMenu, setShowUserMenu] = useState(false);
 
   return (
-    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-slate-950/70 border-b border-slate-800/80 transition-colors duration-200">
+    <header className="sticky top-0 z-40 w-full backdrop-blur-xl bg-white/80 dark:bg-slate-950/70 border-b border-slate-200/80 dark:border-slate-800/80 transition-colors duration-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between gap-4">
         {/* Brand Logo */}
         <div className="flex items-center gap-3 shrink-0">
-          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 p-0.5 shadow-lg shadow-blue-500/20 flex items-center justify-center">
-            <div className="w-full h-full bg-slate-950 rounded-[10px] flex items-center justify-center">
-              <Film className="w-5 h-5 text-sky-400" />
-            </div>
+          <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-sky-400 p-0.5 shadow-lg shadow-blue-500/25 overflow-hidden flex items-center justify-center group hover:scale-105 transition-transform">
+            <img src="/logo.png" alt="Private Vault Logo" className="w-full h-full object-cover rounded-[10px]" />
           </div>
           <div>
             <div className="flex items-center gap-2">
-              <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-white via-slate-100 to-sky-300 bg-clip-text text-transparent">
+              <span className="font-extrabold text-lg tracking-tight bg-gradient-to-r from-slate-900 via-slate-800 to-blue-600 dark:from-white dark:via-slate-100 dark:to-sky-300 bg-clip-text text-transparent">
                 Private Vault
               </span>
-              <span className="px-1.5 py-0.5 text-[10px] font-semibold tracking-wider rounded-md bg-blue-500/10 text-sky-400 border border-blue-500/20 uppercase">
+              <span className="px-1.5 py-0.5 text-[10px] font-semibold tracking-wider rounded-md bg-blue-500/10 text-sky-600 dark:text-sky-400 border border-blue-500/20 uppercase">
                 Encrypted
               </span>
             </div>
-            <p className="text-[11px] text-slate-400 hidden sm:block">Personal Video Library</p>
+            <p className="text-[11px] text-slate-500 dark:text-slate-400 hidden sm:block">Personal Video Library</p>
           </div>
         </div>
 
@@ -54,18 +52,18 @@ export const Navbar: React.FC<NavbarProps> = ({
         {user && (
           <div className="flex-1 max-w-md hidden md:block">
             <div className="relative group">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 group-focus-within:text-sky-400 transition-colors" />
+              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500 group-focus-within:text-sky-500 dark:group-focus-within:text-sky-400 transition-colors" />
               <input
                 type="text"
                 placeholder="Search your video collection..."
                 value={filters.search}
                 onChange={(e) => onFilterChange({ search: e.target.value })}
-                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl bg-slate-900/80 border border-slate-700/60 text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/50 transition-all"
+                className="w-full pl-10 pr-4 py-2 text-sm rounded-xl bg-slate-100/90 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-700/60 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500/50 focus:bg-white dark:focus:bg-slate-900 transition-all"
               />
               {filters.search && (
                 <button
                   onClick={() => onFilterChange({ search: '' })}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 hover:text-white"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-slate-400 dark:text-slate-500 hover:text-slate-700 dark:hover:text-white"
                 >
                   Clear
                 </button>
@@ -84,11 +82,11 @@ export const Navbar: React.FC<NavbarProps> = ({
                 title={filters.favoriteOnly ? 'Show all videos' : 'Filter favorites'}
                 className={`p-2 rounded-xl text-sm font-medium transition-all flex items-center gap-2 border ${
                   filters.favoriteOnly
-                    ? 'bg-amber-500/20 text-amber-300 border-amber-500/40 shadow-lg shadow-amber-500/10'
-                    : 'bg-slate-900/60 text-slate-300 border-slate-800 hover:border-slate-700 hover:bg-slate-800/60'
+                    ? 'bg-amber-500/15 text-amber-700 dark:text-amber-300 border-amber-500/40 shadow-sm shadow-amber-500/10'
+                    : 'bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:bg-slate-200/60 dark:hover:bg-slate-800/60'
                 }`}
               >
-                <Star className={`w-4 h-4 ${filters.favoriteOnly ? 'fill-amber-400 text-amber-400' : ''}`} />
+                <Star className={`w-4 h-4 ${filters.favoriteOnly ? 'fill-amber-400 text-amber-500' : ''}`} />
                 <span className="hidden sm:inline text-xs">Favorites</span>
               </button>
 
@@ -105,18 +103,18 @@ export const Navbar: React.FC<NavbarProps> = ({
               <button
                 onClick={onToggleDarkMode}
                 title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
-                className="p-2 rounded-xl bg-slate-900/60 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white transition-all"
+                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all shadow-sm"
               >
-                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-400" />}
+                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-600" />}
               </button>
 
               {/* User Dropdown */}
               <div className="relative">
                 <button
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-900/80 border border-slate-800 hover:border-slate-700 text-slate-200 transition-all"
+                  className="flex items-center gap-2 p-1.5 rounded-xl bg-slate-100 dark:bg-slate-900/80 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 text-slate-800 dark:text-slate-200 transition-all shadow-sm"
                 >
-                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold uppercase">
+                  <div className="w-7 h-7 rounded-lg bg-gradient-to-br from-sky-500 to-indigo-600 flex items-center justify-center text-white text-xs font-bold uppercase shadow-sm">
                     {user.username.charAt(0)}
                   </div>
                   <span className="text-xs font-medium max-w-[100px] truncate hidden sm:block">
@@ -125,15 +123,15 @@ export const Navbar: React.FC<NavbarProps> = ({
                 </button>
 
                 {showUserMenu && (
-                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-slate-900 border border-slate-800 shadow-2xl backdrop-blur-xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                    <div className="px-3 py-2 border-b border-slate-800/80">
-                      <p className="text-xs font-semibold text-slate-100">{user.username}</p>
-                      <p className="text-[11px] text-slate-400 truncate">{user.email}</p>
+                  <div className="absolute right-0 mt-2 w-56 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xl dark:shadow-2xl backdrop-blur-xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                    <div className="px-3 py-2 border-b border-slate-100 dark:border-slate-800/80">
+                      <p className="text-xs font-semibold text-slate-900 dark:text-slate-100">{user.username}</p>
+                      <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">{user.email}</p>
                     </div>
                     <div className="py-1">
-                      <div className="px-3 py-1.5 text-[11px] text-slate-400 flex items-center justify-between">
+                      <div className="px-3 py-1.5 text-[11px] text-slate-500 dark:text-slate-400 flex items-center justify-between">
                         <span>Library Collection</span>
-                        <span className="font-semibold text-sky-400">{videoCount} videos</span>
+                        <span className="font-semibold text-sky-600 dark:text-sky-400">{videoCount} videos</span>
                       </div>
                     </div>
                     <button
@@ -141,7 +139,7 @@ export const Navbar: React.FC<NavbarProps> = ({
                         setShowUserMenu(false);
                         onLogout();
                       }}
-                      className="w-full mt-1 flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 rounded-xl transition-colors"
+                      className="w-full mt-1 flex items-center gap-2 px-3 py-2 text-xs font-medium text-rose-600 dark:text-rose-400 hover:bg-rose-50 dark:hover:bg-rose-500/10 hover:text-rose-700 dark:hover:text-rose-300 rounded-xl transition-colors"
                     >
                       <LogOut className="w-3.5 h-3.5" />
                       Sign Out
@@ -154,13 +152,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <>
               <button
                 onClick={onToggleDarkMode}
-                className="p-2 rounded-xl bg-slate-900/60 text-slate-300 border border-slate-800 hover:border-slate-700 hover:text-white transition-all mr-1"
+                title={isDarkMode ? 'Switch to Light Mode' : 'Switch to Dark Mode'}
+                className="p-2 rounded-xl bg-slate-100 dark:bg-slate-900/60 text-slate-700 dark:text-slate-300 border border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700 hover:text-slate-900 dark:hover:text-white transition-all mr-1 shadow-sm"
               >
-                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-400" />}
+                {isDarkMode ? <Sun className="w-4 h-4 text-amber-400" /> : <Moon className="w-4 h-4 text-sky-600" />}
               </button>
               <button
                 onClick={() => onOpenAuth('login')}
-                className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-200 hover:text-white bg-slate-900/80 hover:bg-slate-800 border border-slate-800 transition-all"
+                className="px-3.5 py-2 rounded-xl text-xs sm:text-sm font-medium text-slate-700 dark:text-slate-200 hover:text-slate-900 dark:hover:text-white bg-slate-100 dark:bg-slate-900/80 hover:bg-slate-200 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-800 transition-all shadow-sm"
               >
                 Sign In
               </button>
@@ -177,15 +176,15 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Mobile Search Input */}
       {user && (
-        <div className="px-4 py-2 border-t border-slate-800/60 block md:hidden bg-slate-950/80">
+        <div className="px-4 py-2 border-t border-slate-200/80 dark:border-slate-800/60 block md:hidden bg-white/90 dark:bg-slate-950/80">
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-400 dark:text-slate-500" />
             <input
               type="text"
               placeholder="Search videos..."
               value={filters.search}
               onChange={(e) => onFilterChange({ search: e.target.value })}
-              className="w-full pl-9 pr-4 py-1.5 text-xs rounded-xl bg-slate-900 border border-slate-800 text-slate-100 placeholder-slate-400 focus:outline-none focus:border-sky-500"
+              className="w-full pl-9 pr-4 py-1.5 text-xs rounded-xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-slate-100 placeholder-slate-400 dark:placeholder-slate-500 focus:outline-none focus:border-sky-500"
             />
           </div>
         </div>
